@@ -72,7 +72,7 @@
 		<li><a href="top_posts.php" style="color: #d8d8d8; font-size: 11px;">Settings</a></li>
 		<li><a href="leaderboard.php" style="color: #d8d8d8; font-size: 11px;">Theme</a></li></ul>
 
-		<img src="images/logo.png" class="center" width="25%" height="25%">
+		<img src="images/logo.png" class="center" width="450px">
 
 		<form name="search" method="post" onsubmit="return onsearch()">
 		<center style="margin: 70px auto 0;">
