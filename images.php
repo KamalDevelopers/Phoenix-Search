@@ -8,7 +8,7 @@
 	<body>
 		<script>
 		function onsearch() {
-			window.location.replace("https://phoenix-search.me/search.php?query=" + document.getElementById('search').value);
+			window.location.replace("https://phoenix-search.me/images.php?query=" + document.getElementById('search').value);
 		}
 		</script>
 
@@ -19,7 +19,7 @@
             <a href="">Theme</a>
         </div>
         </div>
-
+        
 		<span class="center" style="position: relative; right: -80px; display: inline-block;">
 		<form name="search" method="post" action="javascript:onsearch()" style="display: inline-block;">
 		<input type="text" id="search" name="search" placeholder="Search" style="width: 700px; height: 30px;">
@@ -33,39 +33,31 @@ $time_pre = microtime(true);
 require 'simple_html_dom.php';
 stream_context_set_params($context, array('user_agent' => 'Mozilla/5.0 (Linux; Android 9; moto g(8) play) AppleWebKit/537.36 (KHTML, like Gecko)Chrome/83.0.4103.101 Mobile Safari/537.36'));
 
-$html = file_get_html('https://www.ecosia.org/search?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']) , 0, $context);
+$html = file_get_html('https://www.ecosia.org/images?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']) , 0, $context);
 $title = $_GET['query'];
-//a[class=result__snippet]
-$snippets = $html->find('p[class=result-snippet]');
-$favicons = $html->find('img[class=result__icon__img]');
 $totalres = 0;
+$newlineindex = 1;
 
+$imagelink = $html->find('a[class=image-preview-page-link]');
 echo '<div class="results">';
-//DUCK 'a[class=result__a]'
-$searchdel = "bing";
+foreach ($html->find('a[class=image-result js-image-result js-infinite-scroll-item]') as $index => $element){
+	$url = $element->href;
+    $secure = substr($url, 0, 5);
+    if ($secure == "https"){
+        $url = str_replace("https://", "//", $url);
 
-foreach ($html->find('a[class=result-title js-result-title]') as $index => $element){
-	if ($element->plaintext != "No  results."){
-		$url = $element->href;
-
-		if (!preg_match("/{$searchdel}/i", $url)) {
-			//$url = $pieces = explode("uddg=", $element->href)[1];
-			echo '<img src="' . "https://www.google.com/s2/favicons?domain=" .  urldecode($url) . '" style="position: relative; top: 2px;" width="13px"> ';
-			echo '<a href="' . urldecode($url) . '" style="font-size: 16px;">' . $element->plaintext . '</a><br>';
-			echo '<span class="url" style="font-size: 12px;">' . urldecode($url) . '</span><br>';
-			echo '<span class="resultbox"><p style="font-size: 12px; color: #959595;">' . $snippets[$index]->plaintext . '</p></span><br><br>';
-			
-			$totalres = $index;
-		}
-	}
+	    echo '<a href="' . $imagelink[$index]->href . '"><img src="' . $url . '" style="position: relative; top: 2px; background-color: white;" height="164px"></a> ';
+        $newlineindex += 1;
+	    $totalres = $index;
+    }
 }
-
+echo '<br><br>';
 if ($totalres == 0){
 	echo '<p style="font-size: 14px; color: #959595;">No results found.</p>';
 }
 
-$u = 'https://phoenix-search.me/search.php?page=' . (string)((int)($_GET['page']) + 1) . '&query=' . $_GET['query'];
-$u2 = 'https://phoenix-search.me/search.php?page=' . (string)((int)($_GET['page']) - 1) . '&query=' . $_GET['query'];
+$u = 'https://phoenix-search.me/images.php?page=' . (string)((int)($_GET['page']) + 1) . '&query=' . $_GET['query'];
+$u2 = 'https://phoenix-search.me/images.php?page=' . (string)((int)($_GET['page']) - 1) . '&query=' . $_GET['query'];
 
 if ((int)$_GET['page'] != 0){
 	echo '<div class="nextpage"><a href="'  . $u2 . '"></span><input style="-webkit-transform: scaleX(-1); transform: scaleX(-1); position: absolute; left: 304px;" type="image" src="images/arrow.png" width=15></a>';
