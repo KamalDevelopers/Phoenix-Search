@@ -1,0 +1,87 @@
+html *
+{
+	font-family: "Open Sans" !important;
+}
+
+body { 
+	background-color: black;
+    margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+}
+			 
+.resultbox {
+	display: inline-block; 
+	width: 720px;
+	border: 1px solid black;
+	word-wrap: break-word;
+	overflow-x: hidden;
+}
+
+.center {
+	display: block;
+ 	margin-left: auto;
+	margin-right: auto;
+	margin-top: 70px;
+	overflow-x: hidden;
+}
+
+.list-item
+{
+	float: left;
+	clear: left;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #6B0E0E;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.topnav a:hover {
+  background-color: #d8d8d8;
+}
+
+.topnav-right {
+  float: right;
+}
+			
+a { color: inherit; } 
+
+.results {
+    color: white;
+    font-size: 14px;
+    position: relative;
+    top: 20px;
+    right: -80px;
+}
+
+.url {
+    color: #474747;
+}
+
+.stats {
+    position: relative;
+    right: -80px;
+
+    color: #474747;
+    font-size: 11px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -15px;
+}
+
+#search
+{
+    font-family: "Open Sans";
+    color: black;
+}
