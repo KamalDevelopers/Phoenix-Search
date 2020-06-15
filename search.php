@@ -1,5 +1,4 @@
 <html>
-
 	<header>
 		<link rel="stylesheet" type="text/css" href="style.css">
         <title id="head_title">Phoenix Search</title>
@@ -10,15 +9,21 @@
 		function onsearch() {
 			window.location.replace("https://phoenix-search.me/search.php?query=" + document.getElementById('search').value);
 		}
+		function onsearchimages() {
+			var url = new URL(window.location.href);
+			var query = url.searchParams.get("query");
+			window.location.replace("https://phoenix-search.me/images.php?query=" + query);
+		}
 		</script>
 
 		<div class="topnav">
-        <a href="index.php">Home</a>
-        <div class="topnav-right">
-            <a href="">Settings</a>
-            <a href="">Theme</a>
-        </div>
-        </div>
+			<a class="active" href="index.php">Home</a>
+			<a class="active" href="javascript:onsearchimages();">Images</a>
+			<div class="topnav-right">
+				<a href="">Settings</a>
+				<a href="">Theme</a>
+			</div>
+		</div>
 
 		<span class="center" style="position: relative; right: -80px; display: inline-block;">
 		<form name="search" method="post" action="javascript:onsearch()" style="display: inline-block;">
@@ -73,13 +78,14 @@ if ((int)$_GET['page'] != 0){
 
 if (empty($_GET['page']))
 	$_GET['page'] = "0";
-echo  '<span style="color: #474747; font-size: 13px; position: relative; top: -3px; left: 330;">Page ' . $_GET['page'] . '<a href="'  . $u . '"></span><input style="position: absolute; left: 382;" type="image" src="images/arrow.png" width=15></div></a>';
+echo  '<span style="color: #474747; font-size: 13px; position: relative; top: -3px; left: 330px;">Page ' . $_GET['page'] . '<a href="'  . $u . '"></span><input style="position: absolute; left: 382px;" type="image" src="images/arrow.png" width=15></div></a>';
 
 echo '</div>';
 $time_post = microtime(true);
 $exec_time = $time_post - $time_pre;
 echo "<script> function SetText() { document.getElementById('_stats').innerHTML = 'Found " . $totalres . " results in " . (string)$exec_time . " seconds.'; document.getElementById('head_title').innerHTML = '" . $title . " - Phoenix Search';} </script>";
 echo "<script> SetText(); </script>";
+echo '<br><br> ';
 ?>
 
 </html>
