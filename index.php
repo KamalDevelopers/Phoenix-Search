@@ -1,6 +1,6 @@
 <html>
 	<header>
-		<link rel="stylesheet" type="text/css" href="style.css">
+		<?php echo '<link rel="stylesheet" type="text/css" href="./style.css?' . time(). '">' ?>
         <title id="head_title">Phoenix Search</title>
 	</header>
 

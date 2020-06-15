@@ -1,6 +1,6 @@
 <html>
 	<header>
-		<link rel="stylesheet" type="text/css" href="style.css">
+		<?php echo '<link rel="stylesheet" type="text/css" href="./style.css?' . time(). '">' ?>
         <title id="head_title">Phoenix Search</title>
 	</header>
 
@@ -41,10 +41,9 @@ stream_context_set_params($context, array('user_agent' => 'Mozilla/5.0 (Linux; A
 $html = file_get_html('https://www.ecosia.org/images?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']) , 0, $context);
 $title = $_GET['query'];
 $totalres = 0;
-$newlineindex = 1;
 
 $imagelink = $html->find('a[class=image-preview-page-link]');
-echo '<div class="results">';
+echo '<div class="resultsimages">';
 foreach ($html->find('a[class=image-result js-image-result js-infinite-scroll-item]') as $index => $element){
 	$url = $element->href;
     $secure = substr($url, 0, 5);
@@ -52,7 +51,6 @@ foreach ($html->find('a[class=image-result js-image-result js-infinite-scroll-it
         $url = str_replace("https://", "//", $url);
 
 	    echo '<a href="' . $imagelink[$index]->href . '"><img src="' . $url . '" style="position: relative; top: 2px; background-color: white;" height="164px"></a> ';
-        $newlineindex += 1;
 	    $totalres = $index;
     }
 }
