@@ -1,10 +1,16 @@
 <html>
 	<header>
-		<?php echo '<link rel="stylesheet" type="text/css" href="./style.css?' . time(). '">' ?>
-        <title id="head_title">Phoenix Search</title>
-	</header>
+		<script>
+			var d = new Date();
+			if (document.cookie != "") {
+				document.write('<link rel="stylesheet" id="theme" type="text/css" href="' + document.cookie + '?' + d.getTime() + '"">'); 
+			} else {
+				document.write('<link rel="stylesheet" id="theme" type="text/css" href="./style.css?' + d.getTime() + '">'); 
+			}
+		</script>
+		<link rel="icon" href="./images/PhoenixFavi.svg" type="image/svg">
+		<title id="head_title">Phoenix Search</title>
 
-	<body>
 		<script>
 		function onsearch() {
 			var url = new URL(window.location.href);
@@ -16,8 +22,19 @@
 				window.location.replace("https://phoenix-search.me/search.php?query=" + document.getElementById('search').value);
 			}
 		}
+
+		function SwapStyleSheet(sheet) {
+			document.getElementById("theme").setAttribute("href", sheet);  
+			document.cookie = sheet + "; expires=Thu, 18 Dec 2025 12:00:00 UTC";
+		}
+
+		function SwapThemeLight() {  var d = new Date(); SwapStyleSheet("light.css?" + d.getTime()); }
+		function SwapThemeDefault() {  var d = new Date(); SwapStyleSheet("style.css?" + d.getTime()); }
 		</script>
 
+	</header>
+
+	<body>
 		<div class="topnav">
 			<a class="active" href="index.php">Home</a>
 			<?php
@@ -26,14 +43,20 @@
 			else
 				echo '<a class="active" href="index.php?i=1">Images</a>';
 			?>
+			
 			<div class="topnav-right">
-				<a href="">Settings</a>
-				<a href="">Theme</a>
+				<button class="dropbtn"><a>Theme</a> 
+					<i class="fa fa-caret-down"></i>
+				</button>
+				<div class="dropdown-content">
+					<a href="javascript:SwapThemeDefault();">Default</a>
+					<a href="javascript:SwapThemeLight();">Light</a>
+				</div>
 			</div>
 		</div>
 
-		<img src="images/logo.png" class="center" width="450px">
-
+		<img src="images/PhoenixSearchLogo.svg" class="center" width="450px" style="position: relative; top:120px;">
+		<br><br><br>
 		<form name="search" method="post" action="javascript:onsearch()">
 		<center style="margin: 70px auto 0;">
 			<?php
@@ -41,7 +64,6 @@
 				echo '<input type="text" id="search" name="search" placeholder="Search for images" style="width: 700px; height: 30px;"></form>';
 			else
 				echo '<input type="text" id="search" name="search" placeholder="Search" style="width: 700px; height: 30px;"></form>';
-			?>
 			?>
 		</center>
 

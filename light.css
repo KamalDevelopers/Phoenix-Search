@@ -9,7 +9,7 @@ html *
 }
 
 body { 
-	background-color: #171617;
+	background-color: #222831;
   margin: 0;
 	padding: 0;
 	overflow-x: hidden;
@@ -18,7 +18,7 @@ body {
 .resultbox {
 	display: inline-block; 
 	width: 720px;
-	border: 1px solid #171617;
+	border: 1px solid #222831;
 	/* #1A0B19 */
   word-wrap: break-word;
 	overflow-x: hidden;
@@ -27,7 +27,7 @@ body {
 .resultboximages {
   display: inline-block; 
   width: 1080px;
-  border: 1px solid #1A0B19;
+  border: 1px solid #222831;
   overflow-x: hidden;
 }
 

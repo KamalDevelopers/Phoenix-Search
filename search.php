@@ -1,6 +1,14 @@
 <html>
 	<header>
-		<?php echo '<link rel="stylesheet" type="text/css" href="./style.css?' . time(). '">' ?>
+		<script>
+			var d = new Date();
+			if (document.cookie != "") {
+				document.write('<link rel="stylesheet" id="theme" type="text/css" href="' + document.cookie + '?' + d.getTime() + '"">'); 
+			} else {
+				document.write('<link rel="stylesheet" id="theme" type="text/css" href="./style.css?' + d.getTime() + '">'); 
+			}
+		</script>
+		<link rel="icon" href="./images/PhoenixFavi.svg" type="image/svg">
         <title id="head_title">Phoenix Search</title>
 	</header>
 
@@ -14,14 +22,28 @@
 			var query = url.searchParams.get("query");
 			window.location.replace("https://phoenix-search.me/images.php?query=" + query);
 		}
+
+		function SwapStyleSheet(sheet) {
+			document.getElementById("theme").setAttribute("href", sheet);  
+			document.cookie = sheet + "; expires=Thu, 18 Dec 2025 12:00:00 UTC";
+		}
+
+		function SwapThemeLight() {  var d = new Date(); SwapStyleSheet("light.css?" + d.getTime()); }
+		function SwapThemeDefault() {  var d = new Date(); SwapStyleSheet("style.css?" + d.getTime()); }
+
 		</script>
 
 		<div class="topnav">
 			<a class="active" href="index.php">Home</a>
 			<a class="active" href="javascript:onsearchimages();">Images</a>
 			<div class="topnav-right">
-				<a href="">Settings</a>
-				<a href="">Theme</a>
+				<button class="dropbtn"><a>Theme</a> 
+					<i class="fa fa-caret-down"></i>
+				</button>
+				<div class="dropdown-content">
+					<a href="javascript:SwapThemeDefault();">Default</a>
+					<a href="javascript:SwapThemeLight();">Light</a>
+				</div>
 			</div>
 		</div>
 
