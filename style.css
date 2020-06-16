@@ -1,7 +1,4 @@
-@font-face {
-  font-family: 'Open Sans';
-  src: URL('font/OpenSans-Regular.ttf') format('truetype');
-}
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
 html *
 {
@@ -14,11 +11,54 @@ body {
 	padding: 0;
 	overflow-x: hidden;
 }
-			 
+
+.searchbar {
+  width: 700px; 
+  height: 30px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 15px;
+  outline: none;
+}
+
+.imgbox {
+  display: inline-block; 
+  right: 210px;
+  width: 110px;
+  border: 1px solid black;
+  word-wrap: break-word;
+  overflow-x: hidden;
+}
+
+.titlebox {
+  display: inline-block; 
+  width: 210px;
+  word-wrap: break-word;
+  overflow-x: hidden;
+  margin-left: 120px;
+
+  position: relative;
+  top: -37px;
+}
+
+.wikibox {
+  display: inline-block; 
+  width: 320px;
+  /* #1A0B19 */
+  word-wrap: break-word;
+  overflow-x: hidden;
+  float: right;
+  margin-right: 25%;
+  background-color: #262526;
+  padding-bottom: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border-radius: 12px;
+}
+
 .resultbox {
 	display: inline-block; 
 	width: 720px;
-	border: 1px solid #171617;
 	/* #1A0B19 */
   word-wrap: break-word;
 	overflow-x: hidden;
@@ -27,7 +67,7 @@ body {
 .resultboximages {
   display: inline-block; 
   width: 1080px;
-  border: 1px solid #1A0B19;
+  border: 1px solid inherit;
   overflow-x: hidden;
 }
 

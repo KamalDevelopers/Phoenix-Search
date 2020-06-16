@@ -1,6 +1,10 @@
 <html>
 	<header>
 		<script>
+			var url = window.location.href;
+			var http = url.split(":/")[0];
+			if (http == "http") { window.location.replace("https:/" + url.split(":/")[1]); }
+
 			var d = new Date();
 			if (document.cookie != "") {
 				document.write('<link rel="stylesheet" id="theme" type="text/css" href="' + document.cookie + '?' + d.getTime() + '"">'); 
@@ -24,7 +28,8 @@
 		}
 
 		function SwapStyleSheet(sheet) {
-			document.getElementById("theme").setAttribute("href", sheet);  
+			document.getElementById("theme").setAttribute("href", sheet);
+			document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
 			document.cookie = sheet + "; expires=Thu, 18 Dec 2025 12:00:00 UTC";
 		}
 
@@ -61,9 +66,9 @@
 		<center style="margin: 70px auto 0;">
 			<?php
 			if ($_GET['i'] == "1")
-				echo '<input type="text" id="search" name="search" placeholder="Search for images" style="width: 700px; height: 30px;"></form>';
+				echo '<input type="text" id="search" name="search" placeholder="Search for images" class="searchbar"></form>';
 			else
-				echo '<input type="text" id="search" name="search" placeholder="Search" style="width: 700px; height: 30px;"></form>';
+				echo '<input type="text" id="search" name="search" placeholder="Search" class="searchbar"></form>';
 			?>
 		</center>
 

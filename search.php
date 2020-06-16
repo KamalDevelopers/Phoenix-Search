@@ -1,6 +1,10 @@
 <html>
 	<header>
 		<script>
+			var url = window.location.href;
+			var http = url.split(":/")[0];
+			if (http == "http") { window.location.replace("https:/" + url.split(":/")[1]); }
+
 			var d = new Date();
 			if (document.cookie != "") {
 				document.write('<link rel="stylesheet" id="theme" type="text/css" href="' + document.cookie + '?' + d.getTime() + '"">'); 
@@ -24,7 +28,8 @@
 		}
 
 		function SwapStyleSheet(sheet) {
-			document.getElementById("theme").setAttribute("href", sheet);  
+			document.getElementById("theme").setAttribute("href", sheet);
+			document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });  
 			document.cookie = sheet + "; expires=Thu, 18 Dec 2025 12:00:00 UTC";
 		}
 
@@ -47,11 +52,11 @@
 			</div>
 		</div>
 
-		<span class="center" style="position: relative; right: -80px; display: inline-block;">
+		<span class="center" style="position: relative; right: -75px; display: inline-block;">
 		<form name="search" method="post" action="javascript:onsearch()" style="display: inline-block;">
-		<?php echo '<input type="text" id="search" name="search" value="' . $_GET['query'] . '" style="width: 700px; height: 30px;">'; ?>
+		<?php echo '<input type="text" id="search" name="search" value="' . $_GET['query'] . '" class="searchbar">'; ?>
 		<input type="image" src="images/search.jpg" alt="Submit" style="width: 0px;">
-		<img src="images/PhoenixFavi.svg" width="30px" height="30px" style="position: relative; top: 10px;"></form></span>
+		<a href="index.php"><img src="images/PhoenixFavi.svg" width="30px" height="30px" style="position: relative; top: 10px;"></a></form></span>
 
 		<label class="stats" id="_stats"></label>
 	</body>
@@ -61,15 +66,30 @@ $time_pre = microtime(true);
 
 require 'simple_html_dom.php';
 $html = file_get_html('https://www.ecosia.org/search?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']));
+
+$ads = $html->find('div[class=card-desktop card-ad card-top-ad], div[class=card-desktop card-ad], ul[class=result-deeplink-list]');
+foreach ($ads as $ad)
+	$html = str_replace($ad, "", $html);
+$html = str_get_html($html);
+
 $title = $_GET['query'];
-//a[class=result__snippet]
 $snippets = $html->find('p[class=result-snippet]');
 $favicons = $html->find('img[class=result__icon__img]');
+$wiki = $html->find('section[class=entity-block]');
 $totalres = 0;
 
 echo '<div class="results">';
-//DUCK 'a[class=result__a]'
+
 $searchdel = "bing";
+if (($_GET['page'] == 0) && ($wiki)){
+	$wikidesc = $wiki[0]->find('p')[0]->plaintext;
+	$wikititle = $html->find('h3[class=entity-title]')[0]->plaintext;
+	$wikilink = $html->find("a[class=source-feedback-link]")[0]->href;
+	$imglink = $html->find("img[class=entity-main-image]")[0]->src;
+	$wikidesc = str_replace("Read more", '<a href="' . $wikilink . '">Read more</a>', $wikidesc);
+
+	echo "<span class='wikibox'><nobr><img src='" . $imglink . "' style='border-radius: 15px; float: left; position: relative; top: 41px; height: 100px; '></nobr><h3 class='titlebox'>" . $wikititle . "</h3>" . $wikidesc . "</span>";
+}
 
 foreach ($html->find('a[class=result-title js-result-title]') as $index => $element){
 	if ($element->plaintext != "No  results."){
@@ -81,7 +101,6 @@ foreach ($html->find('a[class=result-title js-result-title]') as $index => $elem
 			echo '<a href="' . urldecode($url) . '" style="font-size: 16px;">' . $element->plaintext . '</a><br>';
 			echo '<span class="url" style="font-size: 12px;">' . urldecode($url) . '</span><br>';
 			echo '<span class="resultbox"><p id="res_snippet">' . $snippets[$index]->plaintext . '</p></span><br><br>';
-			
 			$totalres = $index;
 		}
 	}
@@ -100,7 +119,7 @@ if ((int)$_GET['page'] != 0){
 
 if (empty($_GET['page']))
 	$_GET['page'] = "0";
-echo  '<span style="color: #474747; font-size: 13px; position: relative; top: -3px; left: 330px;">Page ' . $_GET['page'] . '<a href="'  . $u . '"></span><input style="position: absolute; left: 382px;" type="image" src="images/arrow.png" width=15></div></a>';
+echo  '<span style="color: #474747; font-size: 13px; position: relative; top: -3px; left: 330px;">Page ' . (string)((int)($_GET['page']) + 1) . '<a href="'  . $u . '"></span><input style="position: absolute; left: 382px;" type="image" src="images/arrow.png" width=15></div></a>';
 
 echo '</div>';
 $time_post = microtime(true);

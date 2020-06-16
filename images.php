@@ -1,6 +1,10 @@
 <html>
 	<header>
 		<script>
+			var url = window.location.href;
+			var http = url.split(":/")[0];
+			if (http == "http") { window.location.replace("https:/" + url.split(":/")[1]); }
+
 			var d = new Date();
 			if (document.cookie != "") {
 				document.write('<link rel="stylesheet" id="theme" type="text/css" href="' + document.cookie + '?' + d.getTime() + '"">'); 
@@ -24,7 +28,8 @@
 		}
 
 		function SwapStyleSheet(sheet) {
-			document.getElementById("theme").setAttribute("href", sheet);  
+			document.getElementById("theme").setAttribute("href", sheet);
+			document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
 			document.cookie = sheet + "; expires=Thu, 18 Dec 2025 12:00:00 UTC";
 		}
 
@@ -47,11 +52,11 @@
 			</div>
 		</div>
         
-		<span class="center" style="position: relative; right: -80px; display: inline-block;">
+		<span class="center" style="position: relative; right: -75px; display: inline-block;">
 		<form name="search" method="post" action="javascript:onsearch()" style="display: inline-block;">
-		<?php echo '<input type="text" id="search" name="search" value="' . $_GET['query'] . '" style="width: 700px; height: 30px;">'; ?>
+		<?php echo '<input type="text" id="search" name="search" value="' . $_GET['query'] . '" class="searchbar">'; ?>
 		<input type="image" src="images/search.jpg" alt="Submit" style="width: 0px;">
-		<img src="images/PhoenixFavi.svg" width="30px" height="30px" style="position: relative; top: 10px;"></form></span>
+		<a href="index.php"><img src="images/PhoenixFavi.svg" width="30px" height="30px" style="position: relative; top: 10px;"></a></form></span>
 
 		<label class="stats" id="_stats"></label>
 	</body>
@@ -90,7 +95,7 @@ if ((int)$_GET['page'] != 0){
 
 if (empty($_GET['page']))
 	$_GET['page'] = "0";
-echo  '<span style="color: #474747; font-size: 13px; position: relative; top: -3px; left: 850px;">Page ' . $_GET['page'] . '<a href="'  . $u . '"></span><input style="position: absolute; left: 900px;" type="image" src="images/arrow.png" width=15></div></a>';
+echo  '<span style="color: #474747; font-size: 13px; position: relative; top: -3px; left: 850px;">Page ' . (string)((int)($_GET['page']) + 1) . '<a href="'  . $u . '"></span><input style="position: absolute; left: 900px;" type="image" src="images/arrow.png" width=15></div></a>';
 
 echo '</div>';
 $time_post = microtime(true);
