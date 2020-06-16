@@ -49,18 +49,18 @@
         
 		<span class="center" style="position: relative; right: -80px; display: inline-block;">
 		<form name="search" method="post" action="javascript:onsearch()" style="display: inline-block;">
-		<input type="text" id="search" name="search" placeholder="Search" style="width: 700px; height: 30px;">
-		<input type="image" src="images/search.jpg" alt="Submit" style="width: 0px;"></form></span>
+		<?php echo '<input type="text" id="search" name="search" value="' . $_GET['query'] . '" style="width: 700px; height: 30px;">'; ?>
+		<input type="image" src="images/search.jpg" alt="Submit" style="width: 0px;">
+		<img src="images/PhoenixFavi.svg" width="30px" height="30px" style="position: relative; top: 10px;"></form></span>
+
 		<label class="stats" id="_stats"></label>
 	</body>
 
 <?php
 $time_pre = microtime(true);
-
 require 'simple_html_dom.php';
-stream_context_set_params($context, array('user_agent' => 'Mozilla/5.0 (Linux; Android 9; moto g(8) play) AppleWebKit/537.36 (KHTML, like Gecko)Chrome/83.0.4103.101 Mobile Safari/537.36'));
 
-$html = file_get_html('https://www.ecosia.org/images?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']) , 0, $context);
+$html = file_get_html('https://www.ecosia.org/images?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']));
 $title = $_GET['query'];
 $totalres = 0;
 

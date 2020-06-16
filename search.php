@@ -50,7 +50,9 @@
 		<span class="center" style="position: relative; right: -80px; display: inline-block;">
 		<form name="search" method="post" action="javascript:onsearch()" style="display: inline-block;">
 		<?php echo '<input type="text" id="search" name="search" value="' . $_GET['query'] . '" style="width: 700px; height: 30px;">'; ?>
-		<input type="image" src="images/search.jpg" alt="Submit" style="width: 0px;"></form></span>
+		<input type="image" src="images/search.jpg" alt="Submit" style="width: 0px;">
+		<img src="images/PhoenixFavi.svg" width="30px" height="30px" style="position: relative; top: 10px;"></form></span>
+
 		<label class="stats" id="_stats"></label>
 	</body>
 
@@ -73,7 +75,7 @@ foreach ($html->find('a[class=result-title js-result-title]') as $index => $elem
 	if ($element->plaintext != "No  results."){
 		$url = $element->href;
 
-		if (!preg_match("/{$searchdel}/i", $url)) {
+		if (!preg_match("/" . $searchdel . "/i", $url)) {
 			//$url = $pieces = explode("uddg=", $element->href)[1];
 			echo '<img src="' . "https://www.google.com/s2/favicons?domain=" .  urldecode($url) . '" style="position: relative; top: 2px;" width="13px"> ';
 			echo '<a href="' . urldecode($url) . '" style="font-size: 16px;">' . $element->plaintext . '</a><br>';
