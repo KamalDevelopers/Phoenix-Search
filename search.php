@@ -49,7 +49,7 @@
 
 		<span class="center" style="position: relative; right: -80px; display: inline-block;">
 		<form name="search" method="post" action="javascript:onsearch()" style="display: inline-block;">
-		<input type="text" id="search" name="search" placeholder="Search" style="width: 700px; height: 30px;">
+		<?php echo '<input type="text" id="search" name="search" value="' . $_GET['query'] . '" style="width: 700px; height: 30px;">'; ?>
 		<input type="image" src="images/search.jpg" alt="Submit" style="width: 0px;"></form></span>
 		<label class="stats" id="_stats"></label>
 	</body>
@@ -58,9 +58,7 @@
 $time_pre = microtime(true);
 
 require 'simple_html_dom.php';
-stream_context_set_params($context, array('user_agent' => 'Mozilla/5.0 (Linux; Android 9; moto g(8) play) AppleWebKit/537.36 (KHTML, like Gecko)Chrome/83.0.4103.101 Mobile Safari/537.36'));
-
-$html = file_get_html('https://www.ecosia.org/search?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']) , 0, $context);
+$html = file_get_html('https://www.ecosia.org/search?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']));
 $title = $_GET['query'];
 //a[class=result__snippet]
 $snippets = $html->find('p[class=result-snippet]');
