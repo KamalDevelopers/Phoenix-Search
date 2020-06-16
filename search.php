@@ -80,7 +80,7 @@ foreach ($html->find('a[class=result-title js-result-title]') as $index => $elem
 			echo '<img src="' . "https://www.google.com/s2/favicons?domain=" .  urldecode($url) . '" style="position: relative; top: 2px;" width="13px"> ';
 			echo '<a href="' . urldecode($url) . '" style="font-size: 16px;">' . $element->plaintext . '</a><br>';
 			echo '<span class="url" style="font-size: 12px;">' . urldecode($url) . '</span><br>';
-			echo '<span class="resultbox"><p style="font-size: 12px; color: #959595;">' . $snippets[$index]->plaintext . '</p></span><br><br>';
+			echo '<span class="resultbox"><p id="res_snippet">' . $snippets[$index]->plaintext . '</p></span><br><br>';
 			
 			$totalres = $index;
 		}

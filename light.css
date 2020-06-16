@@ -78,6 +78,11 @@ a { color: inherit; }
   right: -80px;
 }
 
+#res_snippet {
+  font-size: 12px; 
+  color: #b9b9b9;
+}
+
 .resultsimages {
   font-size: 14px;
   position: relative;
@@ -93,7 +98,7 @@ a { color: inherit; }
   position: relative;
   right: -80px;
 
-  color: #474747;
+  color: #a6a6a6;
   font-size: 11px;
   display: block;
   margin-left: auto;
