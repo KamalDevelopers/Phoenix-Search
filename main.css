@@ -5,18 +5,20 @@ html *
 	font-family: "Open Sans" !important;
 }
 
-body { 
-	background-color: #171617;
+body {
+  overflow-x: hidden;
   margin: 0;
-	padding: 0;
-	overflow-x: hidden;
+  padding: 0;
+  background-color: #222831;
 }
 
 .searchbar {
+  border: 0;
+  border-width: 0px;
   width: 700px; 
   height: 30px;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 10px;
+  padding-right: 15px;
   border-radius: 15px;
   outline: none;
 }
@@ -47,13 +49,13 @@ body {
   /* #1A0B19 */
   word-wrap: break-word;
   overflow-x: hidden;
-  float: right;
-  margin-right: 25%;
   background-color: #262526;
   padding-bottom: 30px;
   padding-left: 30px;
   padding-right: 30px;
   border-radius: 12px;
+  position: absolute;
+  left: 970px;
 }
 
 .resultbox {
@@ -67,7 +69,6 @@ body {
 .resultboximages {
   display: inline-block; 
   width: 1080px;
-  border: 1px solid inherit;
   overflow-x: hidden;
 }
 

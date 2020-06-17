@@ -4,13 +4,14 @@
 			var url = window.location.href;
 			var http = url.split(":/")[0];
 			if (http == "http") { window.location.replace("https:/" + url.split(":/")[1]); }
-
 			var d = new Date();
+			document.write('<link rel="stylesheet" type="text/css" href="./main.css?' + d.getTime() + '">');
+
 			if (document.cookie != "") {
 				document.write('<link rel="stylesheet" id="theme" type="text/css" href="' + document.cookie + '?' + d.getTime() + '"">'); 
 			} else {
-				document.write('<link rel="stylesheet" id="theme" type="text/css" href="./style.css?' + d.getTime() + '">'); 
-			}
+				document.write('<link rel="stylesheet" id="theme" type="text/css" href="./default.css?' + d.getTime() + '">'); 
+			} 
 		</script>
 		<link rel="icon" href="./images/PhoenixFavi.svg" type="image/svg">
         <title id="head_title">Phoenix Search</title>
@@ -28,13 +29,16 @@
 		}
 
 		function SwapStyleSheet(sheet) {
-			document.getElementById("theme").setAttribute("href", sheet);
+			var d = new Date();
 			document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });  
 			document.cookie = sheet + "; expires=Thu, 18 Dec 2025 12:00:00 UTC";
+			if (document.getElementById("theme").getAttribute("href").split("?")[0] != sheet){
+				location.reload();
+			}
 		}
 
-		function SwapThemeLight() {  var d = new Date(); SwapStyleSheet("light.css?" + d.getTime()); }
-		function SwapThemeDefault() {  var d = new Date(); SwapStyleSheet("style.css?" + d.getTime()); }
+		function SwapThemeLight() { SwapStyleSheet("light.css"); }
+		function SwapThemeDefault() { SwapStyleSheet("default.css"); }
 
 		</script>
 
@@ -52,7 +56,7 @@
 			</div>
 		</div>
 
-		<span class="center" style="position: relative; right: -75px; display: inline-block;">
+		<span class="center" style="position: relative; right: -73px; display: inline-block;">
 		<form name="search" method="post" action="javascript:onsearch()" style="display: inline-block;">
 		<?php echo '<input type="text" id="search" name="search" value="' . $_GET['query'] . '" class="searchbar">'; ?>
 		<input type="image" src="images/search.jpg" alt="Submit" style="width: 0px;">
@@ -66,7 +70,6 @@ $time_pre = microtime(true);
 
 require 'simple_html_dom.php';
 $html = file_get_html('https://www.ecosia.org/search?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']));
-
 $ads = $html->find('div[class=card-desktop card-ad card-top-ad], div[class=card-desktop card-ad], ul[class=result-deeplink-list]');
 foreach ($ads as $ad)
 	$html = str_replace($ad, "", $html);
@@ -87,8 +90,8 @@ if (($_GET['page'] == 0) && ($wiki)){
 	$wikilink = $html->find("a[class=source-feedback-link]")[0]->href;
 	$imglink = $html->find("img[class=entity-main-image]")[0]->src;
 	$wikidesc = str_replace("Read more", '<a href="' . $wikilink . '">Read more</a>', $wikidesc);
-
-	echo "<span class='wikibox'><nobr><img src='" . $imglink . "' style='border-radius: 15px; float: left; position: relative; top: 41px; height: 100px; '></nobr><h3 class='titlebox'>" . $wikititle . "</h3>" . $wikidesc . "</span>";
+	if ($imglink == "") { $imglink = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fen%2Fthumb%2F8%2F80%2FWikipedia-logo-v2.svg%2F1200px-Wikipedia-logo-v2.svg.png"; }
+	echo "<span class='wikibox'><nobr><img src='" . $imglink . "' style='border-radius: 15px; float: left; position: relative; top: 41px; height: 100px; '></nobr><a style='text-decoration: none; outline: none;' href='" . $wikilink . "'><h3 class='titlebox'>" . $wikititle . "</h3></a>" . $wikidesc . "</span>";
 }
 
 foreach ($html->find('a[class=result-title js-result-title]') as $index => $element){

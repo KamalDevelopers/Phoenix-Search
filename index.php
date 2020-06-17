@@ -4,16 +4,17 @@
 			var url = window.location.href;
 			var http = url.split(":/")[0];
 			if (http == "http") { window.location.replace("https:/" + url.split(":/")[1]); }
-
 			var d = new Date();
+			document.write('<link rel="stylesheet" type="text/css" href="./main.css?' + d.getTime() + '">');
+
 			if (document.cookie != "") {
 				document.write('<link rel="stylesheet" id="theme" type="text/css" href="' + document.cookie + '?' + d.getTime() + '"">'); 
 			} else {
-				document.write('<link rel="stylesheet" id="theme" type="text/css" href="./style.css?' + d.getTime() + '">'); 
-			}
+				document.write('<link rel="stylesheet" id="theme" type="text/css" href="./default.css?' + d.getTime() + '">'); 
+			} 
 		</script>
 		<link rel="icon" href="./images/PhoenixFavi.svg" type="image/svg">
-		<title id="head_title">Phoenix Search</title>
+        <title id="head_title">Phoenix Search</title>
 
 		<script>
 		function onsearch() {
@@ -28,13 +29,16 @@
 		}
 
 		function SwapStyleSheet(sheet) {
-			document.getElementById("theme").setAttribute("href", sheet);
-			document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+			var d = new Date();
+			document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });  
 			document.cookie = sheet + "; expires=Thu, 18 Dec 2025 12:00:00 UTC";
+			if (document.getElementById("theme").getAttribute("href").split("?")[0] != sheet){
+				location.reload();
+			}
 		}
 
-		function SwapThemeLight() {  var d = new Date(); SwapStyleSheet("light.css?" + d.getTime()); }
-		function SwapThemeDefault() {  var d = new Date(); SwapStyleSheet("style.css?" + d.getTime()); }
+		function SwapThemeLight() { SwapStyleSheet("light.css"); }
+		function SwapThemeDefault() { SwapStyleSheet("default.css"); }
 		</script>
 
 	</header>
