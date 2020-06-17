@@ -70,7 +70,7 @@ $time_pre = microtime(true);
 
 require 'simple_html_dom.php';
 $html = file_get_html('https://www.ecosia.org/search?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']));
-$ads = $html->find('div[class=card-desktop card-ad card-top-ad], div[class=card-desktop card-ad], ul[class=result-deeplink-list]');
+$ads = $html->find('div[class=card-desktop card-ad card-top-ad], div[class=card-desktop card-ad], ul[class=result-deeplink-list], li[class=result-deeplink-item]');
 foreach ($ads as $ad)
 	$html = str_replace($ad, "", $html);
 $html = str_get_html($html);
@@ -103,7 +103,7 @@ foreach ($html->find('a[class=result-title js-result-title]') as $index => $elem
 			echo '<img src="' . "https://www.google.com/s2/favicons?domain=" .  urldecode($url) . '" style="position: relative; top: 2px;" width="13px"> ';
 			echo '<a href="' . urldecode($url) . '" style="font-size: 16px;">' . $element->plaintext . '</a><br>';
 			echo '<span class="url" style="font-size: 12px;">' . urldecode($url) . '</span><br>';
-			echo '<span class="resultbox"><p id="res_snippet">' . $snippets[$index]->plaintext . '</p></span><br><br>';
+			echo '<span class="resultbox"><p id="res_snippet">' . $snippets[$index]->innertext . '</p></span><br><br>';
 			$totalres = $index;
 		}
 	}
