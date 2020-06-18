@@ -94,7 +94,7 @@ if (($_GET['page'] == 0) && ($wiki)){
 	$imglink = $html->find("img[class=entity-main-image]")[0]->src;
 	$wikidesc = str_replace("Read more", '<a href="' . $wikilink . '">Read more</a>', $wikidesc);
 	if ($imglink == "") { $imglink = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fen%2Fthumb%2F8%2F80%2FWikipedia-logo-v2.svg%2F1200px-Wikipedia-logo-v2.svg.png"; }
-	echo "<span class='wikibox'><nobr><img src='" . $imglink . "' style='border-radius: 15px; float: left; position: relative; top: 41px; height: 100px; '></nobr><a style='text-decoration: none; outline: none;' href='" . $wikilink . "'><h3 class='titlebox'>" . $wikititle . "</h3></a>" . $wikidesc . "</span>";
+	echo "<span class='wikibox'><nobr><img src='" . $imglink . "' style='background-color: white; border: 6px solid white; border-radius: 15px; float: left; position: relative; top: 41px; height: 100px; '></nobr><a style='text-decoration: none; outline: none;' href='" . $wikilink . "'><h3 class='titlebox'>" . $wikititle . "</h3></a>" . $wikidesc . "</span>";
 }
 
 foreach ($html->find('a[class=result-title js-result-title]') as $index => $element){
