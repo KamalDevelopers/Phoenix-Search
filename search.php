@@ -70,6 +70,9 @@ $time_pre = microtime(true);
 
 require 'simple_html_dom.php';
 $html = file_get_html('https://www.ecosia.org/search?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']));
+$spellcheck = $html->find('a[class=result-title]', 0);
+if ($spellcheck != "") echo "<span class='spellcheck'>Including results for <a href='search.php?query=" . $spellcheck->plaintext . "'>" . $spellcheck->plaintext . "</a> - Search only for <a href='search.php?query=%2B" . $_GET['query'] . "'>" . $_GET['query'] . "</a>.</span>";
+
 $ads = $html->find('div[class=card-desktop card-ad card-top-ad], div[class=card-desktop card-ad], ul[class=result-deeplink-list], li[class=result-deeplink-item]');
 foreach ($ads as $ad)
 	$html = str_replace($ad, "", $html);
@@ -127,7 +130,7 @@ echo  '<span style="color: #474747; font-size: 13px; position: relative; top: -3
 echo '</div>';
 $time_post = microtime(true);
 $exec_time = $time_post - $time_pre;
-echo "<script> function SetText() { document.getElementById('_stats').innerHTML = 'Found " . $totalres . " results in " . (string)$exec_time . " seconds.'; document.getElementById('head_title').innerHTML = '" . $title . " - Phoenix Search';} </script>";
+echo "<script> function SetText() { document.getElementById('_stats').innerHTML = 'Found " . $totalres . " results in " . (string)$exec_time . " seconds.'; document.getElementById('head_title').innerHTML = '" . $title . " - Phoenix Search'; }</script>";
 echo "<script> SetText(); </script>";
 echo '<br><br> ';
 ?>
