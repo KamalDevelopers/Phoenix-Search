@@ -47,6 +47,7 @@
 			}
 		}
 
+		function SwapThemeAqua() { SwapStyleSheet("aqua.css"); }
 		function SwapThemeLight() { SwapStyleSheet("light.css"); }
 		function SwapThemeDefault() { SwapStyleSheet("default.css"); }
 
@@ -62,6 +63,7 @@
 				<div class="dropdown-content">
 					<a href="javascript:SwapThemeDefault();">Default</a>
 					<a href="javascript:SwapThemeLight();">Light</a>
+					<a href="javascript:SwapThemeAqua();">Aqua</a>
 				</div>
 			</div>
 		</div>
