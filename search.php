@@ -1,6 +1,15 @@
 <html>
 	<header>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script>
+			$(window).scroll(function() {
+				var url = new URL(document.URL);
+				var page = url.searchParams.get("page");
+				var query = url.searchParams.get("query");
+				var u = '/search.php?query=' + query + '&page=' + String(Number(page)+1) + ' .results';
+				if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) { $('#result2').append($('<div>').load(u));}
+			});
+
 			var url = window.location.href;
 			var http = url.split(":/")[0];
 			if (http == "http") { window.location.replace("https:/" + url.split(":/")[1]); }
@@ -20,12 +29,12 @@
 	<body>
 		<script>
 		function onsearch() {
-			window.location.replace("https://phoenix-search.me/search.php?query=" + document.getElementById('search').value);
+			window.location.replace("search.php?query=" + document.getElementById('search').value);
 		}
 		function onsearchimages() {
 			var url = new URL(window.location.href);
 			var query = url.searchParams.get("query");
-			window.location.replace("https://phoenix-search.me/images.php?query=" + query);
+			window.location.replace("images.php?query=" + query);
 		}
 
 		function SwapStyleSheet(sheet) {
@@ -67,9 +76,11 @@
 
 <?php
 $time_pre = microtime(true);
-
 require 'simple_html_dom.php';
-$html = file_get_html('https://www.ecosia.org/search?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']));
+$context = stream_context_create();
+stream_context_set_params($context, array('user_agent' => 'UserAgent/1.0'));
+$html = file_get_html('http://ecosia.org/search?p=' . $_GET['page'] . '&q=' . urlencode($_GET['query']), 0, $context);
+
 $spellcheck = $html->find('a[class=result-title]', 0);
 if ($spellcheck != "") echo "<span class='spellcheck'>Including results for <a href='search.php?query=" . $spellcheck->plaintext . "'>" . $spellcheck->plaintext . "</a> - Search only for <a href='search.php?query=%2B" . $_GET['query'] . "'>" . $_GET['query'] . "</a>.</span>";
 
@@ -113,12 +124,12 @@ foreach ($html->find('a[class=result-title js-result-title]') as $index => $elem
 }
 
 if ($totalres == 0){
-	echo '<p style="font-size: 14px; color: #959595;">No results found.</p>';
+	echo '</div><p class="noresultsfound">No results found.</p>';
 }
 
 $u = 'https://phoenix-search.me/search.php?page=' . (string)((int)($_GET['page']) + 1) . '&query=' . $_GET['query'];
 $u2 = 'https://phoenix-search.me/search.php?page=' . (string)((int)($_GET['page']) - 1) . '&query=' . $_GET['query'];
-
+/*
 if ((int)$_GET['page'] != 0){
 	echo '<div class="nextpage"><a href="'  . $u2 . '"></span><input style="-webkit-transform: scaleX(-1); transform: scaleX(-1); position: absolute; left: 304px;" type="image" src="images/arrow.png" width=15></a>';
 }
@@ -126,8 +137,9 @@ if ((int)$_GET['page'] != 0){
 if (empty($_GET['page']))
 	$_GET['page'] = "0";
 echo  '<span style="color: #474747; font-size: 13px; position: relative; top: -3px; left: 330px;">Page ' . (string)((int)($_GET['page']) + 1) . '<a href="'  . $u . '"></span><input style="position: absolute; left: 382px;" type="image" src="images/arrow.png" width=15></div></a>';
-
+*/
 echo '</div>';
+echo '<div id="result2"></div>';
 $time_post = microtime(true);
 $exec_time = $time_post - $time_pre;
 echo "<script> function SetText() { document.getElementById('_stats').innerHTML = 'Found " . $totalres . " results in " . (string)$exec_time . " seconds.'; document.getElementById('head_title').innerHTML = '" . $title . " - Phoenix Search'; }</script>";

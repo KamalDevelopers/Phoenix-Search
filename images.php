@@ -1,6 +1,16 @@
 <html>
 	<header>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script>
+			var index = 0;
+			$(window).scroll(function() {
+				var url = new URL(document.URL);
+				var page = url.searchParams.get("page");
+				var query = url.searchParams.get("query");
+				var u = '/images.php?query=' + query + '&page=' + String(Number(page)+1+index) + ' .resultsimages';
+				if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) { $('#resultsimages2').append($('<div>').load(u)); index+=1;}
+			});
+
 			var url = window.location.href;
 			var http = url.split(":/")[0];
 			if (http == "http") { window.location.replace("https:/" + url.split(":/")[1]); }
@@ -20,12 +30,12 @@
 	<body>
 		<script>
 		function onsearch() {
-			window.location.replace("https://phoenix-search.me/images.php?query=" + document.getElementById('search').value);
+			window.location.replace("images.php?query=" + document.getElementById('search').value);
 		}
 		function onsearchweb() {
 			var url = new URL(window.location.href);
 			var query = url.searchParams.get("query");
-			window.location.replace("https://phoenix-search.me/search.php?query=" + query);
+			window.location.replace("search.php?query=" + query);
 		}
 
 		function SwapStyleSheet(sheet) {
@@ -92,7 +102,7 @@ if ($totalres == 0){
 
 $u = 'https://phoenix-search.me/images.php?page=' . (string)((int)($_GET['page']) + 1) . '&query=' . $_GET['query'];
 $u2 = 'https://phoenix-search.me/images.php?page=' . (string)((int)($_GET['page']) - 1) . '&query=' . $_GET['query'];
-
+/*
 if ((int)$_GET['page'] != 0){
 	echo '<div class="nextpage"><a href="'  . $u2 . '"></span><input style="-webkit-transform: scaleX(-1); transform: scaleX(-1); position: absolute; left: 825px;" type="image" src="images/arrow.png" width=15></a>';
 }
@@ -100,8 +110,9 @@ if ((int)$_GET['page'] != 0){
 if (empty($_GET['page']))
 	$_GET['page'] = "0";
 echo  '<span style="color: #474747; font-size: 13px; position: relative; top: -3px; left: 850px;">Page ' . (string)((int)($_GET['page']) + 1) . '<a href="'  . $u . '"></span><input style="position: absolute; left: 900px;" type="image" src="images/arrow.png" width=15></div></a>';
-
+*/
 echo '</div>';
+echo '<div id="resultsimages2"></div>';
 $time_post = microtime(true);
 $exec_time = $time_post - $time_pre;
 echo "<script> function SetText() { document.getElementById('_stats').innerHTML = 'Found " . $totalres . " results in " . (string)$exec_time . " seconds.'; document.getElementById('head_title').innerHTML = '" . $title . " - Phoenix Search';} </script>";

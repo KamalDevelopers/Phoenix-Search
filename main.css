@@ -119,6 +119,14 @@ a { color: inherit; }
   right: -80px;
 }
 
+.noresultsfound {
+  color: #959595;
+  font-size: 14px;
+  position: relative;
+  top: 20px;
+  right: -80px;
+}
+
 .spellcheck {
   color: #842b2bbd;
   font-size: 12px;

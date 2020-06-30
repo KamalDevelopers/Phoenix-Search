@@ -14,17 +14,17 @@
 			} 
 		</script>
 		<link rel="icon" href="./images/PhoenixFavi.svg" type="image/svg">
-        <title id="head_title">Phoenix Search</title>
+		<title id="head_title">Phoenix Search</title>
 
 		<script>
 		function onsearch() {
 			var url = new URL(window.location.href);
 			var c = url.searchParams.get("i");
 			if (c == "1") {
-				window.location.replace("https://phoenix-search.me/images.php?query=" + document.getElementById('search').value);
+				window.location.replace("images.php?query=" + document.getElementById('search').value);
 			}
 			else {
-				window.location.replace("https://phoenix-search.me/search.php?query=" + document.getElementById('search').value);
+				window.location.replace("search.php?query=" + document.getElementById('search').value);
 			}
 		}
 
